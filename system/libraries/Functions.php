@@ -1,8 +1,10 @@
 <?php
 
-function app()
+function app($key = false)
 {
     $app    = require 'config/applications.php';
+    if($key != false)
+        return $app[$key];
     return $app;
 }
 
@@ -65,6 +67,7 @@ function session()
 
 function redirect($url)
 {
+    $url = base_url().$url;
     header('location:'.$url);
     die();
 }
