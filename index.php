@@ -1,4 +1,5 @@
 <?php
+ini_set("display_errors",0);
 define("Z_MVC",1);
 set_time_limit(0);
 session_start();
@@ -40,9 +41,10 @@ $_URI = explode("/", $URI);
 if($app['root_dir'] && $_URI[1] == $app['root_dir'])
     unset($_URI[1]);
 $URI = implode("/", $_URI);
+// $URI = $app['root_dir'] ? ltrim($URI,$app['root_dir'].'/') : $URI;
 $URI = trim($URI,'/');
 $URI = empty($URI) ? '/' : $URI;
-
+// $URI = $app['root_dir'] && $URI == $app['root_dir'] ? '/' : $URI;
 
 if($URI == '/')
 {
@@ -55,6 +57,7 @@ else
     $url = array_map(function($_url){
         return ucfirst($_url);
     }, $url);
+    $URI = implode('/', $url);
     if(count($url) ==  1) // just controller
     {
         $URI = str_replace('/','\\',$URI);
@@ -153,6 +156,3 @@ if(is_array($callback) || is_object($callback))
 }
 
 echo $callback;
-
-
-// $boot = new Boot;
